@@ -1,0 +1,8 @@
+phpunit:
+  binaryPath: ./vendor/bin/pest
+  directories:
+    - src
+    - database
+    - resources
+    - tests
+  hideManual: true

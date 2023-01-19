@@ -1,0 +1,11 @@
+parameters:
+	level: 6
+	paths:
+		- src
+	excludePaths:
+		analyseAndScan:
+			- app/Console
+			- app/Exceptions
+			- app/Providers
+			- database
+			- tests
