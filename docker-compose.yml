@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: customer-manager-nginx
+    restart: unless-stopped
+    links:  
+      - php
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./devops/nginx:/etc/nginx/conf.d
+    depends_on:
+      - php
+  
+  php:
+    stdin_open: true
+    tty: true
+    expose:  
+      - 9003
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        user: ${USER}
+        uid: ${UID}
+    image: customer-manager-php
+    container_name: customer-manager-php-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes: 
+      - ./:/var/www
+      - ./devops/php:/usr/local/etc/php/conf.d
+    links:
+      - mysql
+    depends_on:
+      - mysql
+
+  mysql:    
+    image: mysql:5.7  
+    container_name: customer-manager-mysql-container  
+    volumes_from:  
+      - mysql-data
+    environment:  
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  
+      MYSQL_DATABASE: ${DB_DATABASE}   
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 3307:3306
+
+  mysql-data:    
+    image: mysql:5.7  
+    container_name: customer-manager-mysql-data-container  
+    volumes:  
+      - /var/lib/mysql
+    command: "true"
