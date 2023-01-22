@@ -48,12 +48,12 @@ class CreateCustomerControllerTest extends TestCase
         $data = [
             'first_name' => 'any_first_name',
             'last_name' => 'any_last_name',
-            'document' => 'any_document',
+            'document' => 'anyDocument',
             'bith_date' => 'any_bith_date',
             'phone_number' => 'any_phone_number'
         ];
 
-        $expected = '{"document":["The document must be a number."]}';
+        $expected = '{"document":["The document must be a number.", "The document must be 11 digits."]}';
 
         $this->post('/customers', $data)
             ->assertResponseStatus(422);
@@ -64,4 +64,24 @@ class CreateCustomerControllerTest extends TestCase
         );
     }
 
+    public function testStoreCustomerShouldThrowErrorIfDocumentIsNot11digits()
+    {
+        $data = [
+            'first_name' => 'any_first_name',
+            'last_name' => 'any_last_name',
+            'document' => '0123456789',
+            'bith_date' => 'any_bith_date',
+            'phone_number' => 'any_phone_number'
+        ];
+
+        $expected = '{"document":["The document must be 11 digits."]}';
+
+        $this->post('/customers', $data)
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
+    }
 }
