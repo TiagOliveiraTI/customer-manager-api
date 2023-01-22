@@ -13,7 +13,7 @@ class CreateCustomerController extends Controller
             "first_name" => "required",
             "last_name" => "required",
             "document" => "required|numeric|digits:11",
-            "birth_date" => "required"
+            "birth_date" => "required|date"
         ]);
     }
 }
