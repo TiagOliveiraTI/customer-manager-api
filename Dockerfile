@@ -49,3 +49,5 @@ USER $user
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY . ./
+
+EXPOSE 9003
