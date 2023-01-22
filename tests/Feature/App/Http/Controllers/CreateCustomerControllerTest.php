@@ -30,4 +30,17 @@ class CreateCustomerControllerTest extends TestCase
         );
     }
 
+    public function testStoreCustomerShouldThrowErrorIfDocumentIsMissing()
+    {
+        $expected = '{"document":["The document field is required."]}';
+
+        $this->post('/customers', $this->removeItemFromData('document'))
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
+    }
+
 }
