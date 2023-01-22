@@ -17,4 +17,17 @@ class CreateCustomerControllerTest extends TestCase
         );
     }
 
+    public function testStoreCustomerShouldThrowErrorIfLastNameIsMissing()
+    {
+        $expected = '{"last_name":["The last name field is required."]}';
+
+        $this->post('/customers', $this->removeItemFromData('last_name'))
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
+    }
+
 }
