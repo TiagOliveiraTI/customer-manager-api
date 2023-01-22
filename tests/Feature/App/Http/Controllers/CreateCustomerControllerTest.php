@@ -84,4 +84,18 @@ class CreateCustomerControllerTest extends TestCase
             $this->response->getContent()
         );
     }
+
+    public function testStoreCustomerShouldThrowErrorIfBithDateIsMissing()
+    {
+        $expected = '{"birth_date":["The birth date field is required."]}';
+
+        $this->post('/customers', $this->removeItemFromData('birth_date'))
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
+    }
+
 }
