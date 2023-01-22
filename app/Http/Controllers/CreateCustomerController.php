@@ -12,7 +12,7 @@ class CreateCustomerController extends Controller
         $this->validate($request, [
             "first_name" => "required",
             "last_name" => "required",
-            "document" => "required",
+            "document" => "required|numeric",
         ]);
     }
 }

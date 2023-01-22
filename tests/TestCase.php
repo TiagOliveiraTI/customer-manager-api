@@ -21,7 +21,7 @@ abstract class TestCase extends BaseTestCase
         $data = [
             'first_name' => 'any_first_name',
             'last_name' => 'any_last_name',
-            'document' => 'any_document',
+            'document' => '01234567890',
             'bith_date' => 'any_bith_date',
             'phone_number' => 'any_phone_number'
         ];
