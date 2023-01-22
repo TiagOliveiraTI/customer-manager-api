@@ -16,13 +16,13 @@ abstract class TestCase extends BaseTestCase
         return require __DIR__.'/../bootstrap/app.php';
     }
 
-    protected function removeItemFromData(string $key): array
+    protected function removeItemFromData(string $key = ''): array
     {
         $data = [
             'first_name' => 'any_first_name',
             'last_name' => 'any_last_name',
             'document' => '01234567890',
-            'birth_date' => 'any_birth_date',
+            'birth_date' => '1988-01-31',
             'phone_number' => 'any_phone_number'
         ];
 

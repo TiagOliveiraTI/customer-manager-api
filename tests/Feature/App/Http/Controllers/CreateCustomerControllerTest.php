@@ -49,7 +49,7 @@ class CreateCustomerControllerTest extends TestCase
             'first_name' => 'any_first_name',
             'last_name' => 'any_last_name',
             'document' => 'anyDocument',
-            'birth_date' => 'any_birth_date',
+            'birth_date' => '1988-01-31',
             'phone_number' => 'any_phone_number'
         ];
 
@@ -70,7 +70,7 @@ class CreateCustomerControllerTest extends TestCase
             'first_name' => 'any_first_name',
             'last_name' => 'any_last_name',
             'document' => '0123456789',
-            'birth_date' => 'any_birth_date',
+            'birth_date' => '1988-01-31',
             'phone_number' => 'any_phone_number'
         ];
 
@@ -90,6 +90,27 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"birth_date":["The birth date field is required."]}';
 
         $this->post('/customers', $this->removeItemFromData('birth_date'))
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
+    }
+
+    public function testStoreCustomerShouldThrowErrorIfBirthDateIsNotValidDate()
+    {
+        $data = [
+            'first_name' => 'any_first_name',
+            'last_name' => 'any_last_name',
+            'document' => '01234567890',
+            'birth_date' => 'any_birth_date',
+            'phone_number' => 'any_phone_number'
+        ];
+
+        $expected = '{"birth_date":["The birth date is not a valid date."]}';
+
+        $this->post('/customers', $data)
             ->assertResponseStatus(422);
 
         $this->assertJsonStringEqualsJsonString(
