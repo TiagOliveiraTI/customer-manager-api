@@ -1,9 +1,12 @@
 <?php
 
+use Laravel\Lumen\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CreateCustomerControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function testStoreCustomerShouldThrowErrorIfFirstNameIsMissing()
     {
         $expected = '{"first_name":["The first name field is required."]}';
@@ -119,4 +122,34 @@ class CreateCustomerControllerTest extends TestCase
         );
     }
 
+    public function testStoreCustomerShouldThrowErrorIfDocumentHasBeenCreated()
+    {
+        $data1 = [
+            'first_name' => 'any_first_name',
+            'last_name' => 'any_last_name',
+            'document' => '01234567890',
+            'birth_date' => '1988-01-31',
+            'phone_number' => '11998765432'
+        ];
+
+        $this->post('/customers', $data1);
+
+        $data2 = [
+            'first_name' => 'any_first_name',
+            'last_name' => 'any_last_name',
+            'document' => '01234567890',
+            'birth_date' => '1988-01-31',
+            'phone_number' => '11998765432'
+        ];
+
+        $expected = '{"document":["The document has already been taken."]}';
+
+        $this->post('/customers', $data2)
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
+    }
 }
