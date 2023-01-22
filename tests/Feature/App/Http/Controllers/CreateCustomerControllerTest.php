@@ -43,4 +43,25 @@ class CreateCustomerControllerTest extends TestCase
         );
     }
 
+    public function testStoreCustomerShouldThrowErrorIfDocumentIsNotNumber()
+    {
+        $data = [
+            'first_name' => 'any_first_name',
+            'last_name' => 'any_last_name',
+            'document' => 'any_document',
+            'bith_date' => 'any_bith_date',
+            'phone_number' => 'any_phone_number'
+        ];
+
+        $expected = '{"document":["The document must be a number."]}';
+
+        $this->post('/customers', $data)
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
+    }
+
 }
