@@ -8,7 +8,7 @@ class CreateCustomerControllerTest extends TestCase
     {
         $expected = '{"first_name":["The first name field is required."]}';
 
-        $this->post('/customers')
+        $this->post('/customers', $this->removeItemFromData('first_name'))
             ->assertResponseStatus(422);
 
         $this->assertJsonStringEqualsJsonString(
