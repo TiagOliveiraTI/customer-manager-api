@@ -11,6 +11,30 @@ class CreateCustomerController extends Controller
 {
     /**
      * Summary of handle
+     * @OA\Post(
+     *     path="/customers",
+     *     tags={"customers"},
+     *     operationId="addCustomer",
+     *     summary="Add a new customer",
+     *     description="",
+     *     @OA\RequestBody(
+     *         description="Customer object that needs to be added",
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(ref="#/components/schemas/CreateCustomer")
+     *         )
+     *     ),
+     *      @OA\Response(
+     *         response=201,
+     *         description="Error: Unprocessable Content",
+     *         @OA\JsonContent(ref="#/components/schemas/Customer")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error: Unprocessable Content",
+     *     )
+     * )
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
