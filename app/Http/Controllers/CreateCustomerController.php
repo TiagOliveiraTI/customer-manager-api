@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
+use App\Models\Customer;
+use Illuminate\Http\Request;
 
 class CreateCustomerController extends Controller
 {
-    public function handle(): JsonResponse
+    public function handle(Request $request): void
     {
-        return response()->json([]);
+        $this->validate($request, [
+            "first_name" => "required"
+        ]);
     }
 }
