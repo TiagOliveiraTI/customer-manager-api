@@ -49,7 +49,7 @@ class CreateCustomerControllerTest extends TestCase
             'first_name' => 'any_first_name',
             'last_name' => 'any_last_name',
             'document' => 'anyDocument',
-            'bith_date' => 'any_bith_date',
+            'birth_date' => 'any_birth_date',
             'phone_number' => 'any_phone_number'
         ];
 
@@ -70,7 +70,7 @@ class CreateCustomerControllerTest extends TestCase
             'first_name' => 'any_first_name',
             'last_name' => 'any_last_name',
             'document' => '0123456789',
-            'bith_date' => 'any_bith_date',
+            'birth_date' => 'any_birth_date',
             'phone_number' => 'any_phone_number'
         ];
 
