@@ -4,10 +4,17 @@ use Tests\TestCase;
 
 class CreateCustomerControllerTest extends TestCase
 {
-    public function testIfRouteExists()
+    public function testStoreCustomerShouldThrowErrorIfFirstNameIsMissing()
     {
-        $this->post('/customers');
+        $expected = '{"first_name":["The first name field is required."]}';
 
-        $this->assertResponseOk();
+        $this->post('/customers')
+            ->assertResponseStatus(422);
+
+        $this->assertJsonStringEqualsJsonString(
+            $expected,
+            $this->response->getContent()
+        );
     }
+
 }
