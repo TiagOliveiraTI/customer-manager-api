@@ -13,10 +13,10 @@ jobs:
       - name: Deploy for Host
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.server_ssh_key }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rlgoDzvc -i --delete"
           SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.FTP_HOST }}
-          REMOTE_USER: ${{ secrets.FTP_USER }}
-          TARGET: ${{ secrets.FTP_TARGET }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
           EXCLUDE: "/dist/, /node_modules/, /vendor/"
