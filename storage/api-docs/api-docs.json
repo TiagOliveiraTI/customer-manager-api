@@ -82,7 +82,7 @@
                     "document": {
                         "type": "string"
                     },
-                    "birth_name": {
+                    "birth_date": {
                         "type": "string"
                     },
                     "phone_number": {
@@ -109,7 +109,7 @@
                     "document": {
                         "type": "string"
                     },
-                    "birth_name": {
+                    "birth_date": {
                         "type": "string"
                     },
                     "phone_number": {
