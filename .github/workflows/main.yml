@@ -17,9 +17,9 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
+        password: ${{ secrets.PASSWORD }}
         server: ftp.otao.dev.br
         username: tiago@otao.dev.br
-        password: ${{ secrets.PASSWORD }}
         server-dir: /testes/customer-manager-api/
         protocol: ftps
         port: 21
