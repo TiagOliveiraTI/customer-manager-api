@@ -9,3 +9,4 @@ parameters:
 			- app/Providers
 			- database
 			- tests
+	checkGenericClassInNonGenericObjectType: false

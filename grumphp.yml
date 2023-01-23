@@ -5,11 +5,12 @@ grumphp:
   tasks:
     phpcs:
       standard: PSR12
-      ignore_patterns: [./tests/*]
+      ignore_patterns: [./tests/*, ./config/*]
 
     phpmd:
         whitelist_patterns: []
-        exclude: []
+        exclude: 
+          - ./config
         report_format: text
         ruleset: ['cleancode', 'codesize', 'naming']
         triggered_by: ['php']
