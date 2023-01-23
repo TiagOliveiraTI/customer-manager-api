@@ -14,3 +14,4 @@
 */
 
 $router->post('/customers', 'CreateCustomerController@handle');
+$router->get('/customers', 'ListAllCustomersController@handle');
