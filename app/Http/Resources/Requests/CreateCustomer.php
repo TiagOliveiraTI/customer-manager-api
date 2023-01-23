@@ -20,19 +20,19 @@ class CreateCustomer
     private string $lastName;
 
     /**
-     * @OA\Property(property="document", type="string")
+     * @OA\Property(property="document", type="string", default="01234567890")
      * @var string
      */
     private string $document;
 
     /**
-     * @OA\Property(property="birth_date", type="string")
+     * @OA\Property(property="birth_date", type="string", default="YYYY-MM-DD")
      * @var string
      */
     private string $birthDate;
 
     /**
-     * @OA\Property(property="phone_number", type="string")
+     * @OA\Property(property="phone_number", type="string", default="11987654321")
      * @var string
      */
     private string $phoneNumber;
