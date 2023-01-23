@@ -63,6 +63,42 @@
                     }
                 }
             }
+        },
+        "/customers/{document}": {
+            "get": {
+                "tags": [
+                    "List a customer by document"
+                ],
+                "summary": "List all customers",
+                "description": "List all customers",
+                "operationId": "listACustomerByDocument",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "Document of customer",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document: Customer with document number not found."
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -80,13 +116,16 @@
                         "type": "string"
                     },
                     "document": {
-                        "type": "string"
+                        "type": "string",
+                        "default": "01234567890"
                     },
                     "birth_date": {
-                        "type": "string"
+                        "type": "string",
+                        "default": "YYYY-MM-DD"
                     },
                     "phone_number": {
-                        "type": "string"
+                        "type": "string",
+                        "default": "11987654321"
                     }
                 },
                 "type": "object"
