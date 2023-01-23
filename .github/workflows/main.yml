@@ -20,7 +20,7 @@ jobs:
         server: ftp.otao.dev.br
         username: tiago@otao.dev.br
         password: ${{ secrets.password }}
-        server-dir: /testes/customer-manager-api
+        server-dir: /testes/customer-manager-api/
         protocol: ftps
         port: 21
         exclude: |
