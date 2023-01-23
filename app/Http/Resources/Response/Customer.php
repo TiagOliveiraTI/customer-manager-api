@@ -32,7 +32,7 @@ class Customer
     private string $document;
 
     /**
-     * @OA\Property(property="birth_name", type="string")
+     * @OA\Property(property="birth_date", type="string")
      * @var string
      */
     private string $birthDate;
