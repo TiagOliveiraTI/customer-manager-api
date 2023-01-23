@@ -5,24 +5,17 @@ on:
       - main
 name: 🚀 Deploy website on push
 jobs:
-  web-deploy:
-    if: github.event.pull_request.merged == true
-    timeout-minutes: 2
-    name: 🎉 Deploy
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
-      with:
-        password: ${{ secrets.password }}
-        server: ftp.otao.dev.br
-        username: tiago@otao.dev.br
-        server-dir: /testes/customer-manager-api/
-        protocol: ftps
-        port: 21
-        exclude: |
-          **/.git*/**
-          **/vendor/**
+      - name: Checkout repository
+        uses: actions/checkout@1
+      - name: Deploy for Host
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.server_ssh_key}}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "src/"
+          REMOTE_HOST: ${{secrets.FTP_HOST}}
+          REMOTE_USER: ${{secrets.FTP_USER}}
+          TARGET: ${{secrets.FTP_TARGET}}
