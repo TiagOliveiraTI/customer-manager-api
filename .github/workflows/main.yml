@@ -1,0 +1,25 @@
+on: 
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    if: github.event.pull_request.merged == true
+    timeout-minutes: 2
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ftp.otao.dev.br
+        username: tiago@otao.dev.br
+        password: ${{ secrets.ftp_password }}
+        server-dir: /testes/customer-manager-api
+        protocol: ftps
+        port: 21
