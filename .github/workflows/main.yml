@@ -12,10 +12,11 @@ jobs:
         uses: actions/checkout@v1
       - name: Deploy for Host
         uses: easingthemes/ssh-deploy@main
-        with:
-          SSH_PRIVATE_KEY: ${{secrets.server_ssh_key}}
-          ARGS: "-rltgoDzvO --delete"
-          SOURCE: "src/"
-          REMOTE_HOST: ${{secrets.FTP_HOST}}
-          REMOTE_USER: ${{secrets.FTP_USER}}
-          TARGET: ${{secrets.FTP_TARGET}}
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.server_ssh_key }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.FTP_HOST }}
+          REMOTE_USER: ${{ secrets.FTP_USER }}
+          TARGET: ${{ secrets.FTP_TARGET }}
+          EXCLUDE: "/dist/, /node_modules/, /vendor/"
