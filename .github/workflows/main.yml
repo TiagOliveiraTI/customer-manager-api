@@ -23,3 +23,7 @@ jobs:
         server-dir: /testes/customer-manager-api
         protocol: ftps
         port: 21
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/vendor/**
