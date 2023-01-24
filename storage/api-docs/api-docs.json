@@ -64,42 +64,6 @@
                 }
             }
         },
-        "/customers/{document}": {
-            "get": {
-                "tags": [
-                    "List a customer by document"
-                ],
-                "summary": "List all customers",
-                "description": "List all customers",
-                "operationId": "listACustomerByDocument",
-                "parameters": [
-                    {
-                        "name": "document",
-                        "in": "path",
-                        "description": "Document of customer",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Customer"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Document: Customer with document number not found."
-                    }
-                }
-            }
-        },
         "/customers/{uuid}": {
             "put": {
                 "tags": [
@@ -130,6 +94,76 @@
                         }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document: Customer with document number not found."
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Delete a customer"
+                ],
+                "summary": "Delete a customers",
+                "description": "Delete a customers",
+                "operationId": "deleteACustomer",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Uuid of customer",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Document: Customer with document number not found."
+                    }
+                }
+            }
+        },
+        "/customers/{document}": {
+            "get": {
+                "tags": [
+                    "List a customer by document"
+                ],
+                "summary": "List all customers",
+                "description": "List all customers",
+                "operationId": "listACustomerByDocument",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "Document of customer",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Ok",
