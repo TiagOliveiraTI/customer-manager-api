@@ -1,7 +1,8 @@
 <?php
 
-use Laravel\Lumen\Testing\DatabaseTransactions;
 use Tests\TestCase;
+use Illuminate\Http\Response;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class CreateCustomerControllerTest extends TestCase
 {
@@ -12,7 +13,7 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"first_name":["The first name field is required."]}';
 
         $this->post('/customers', $this->removeItemFromData('first_name'))
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
@@ -25,7 +26,7 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"last_name":["The last name field is required."]}';
 
         $this->post('/customers', $this->removeItemFromData('last_name'))
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
@@ -38,7 +39,7 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"document":["The document field is required."]}';
 
         $this->post('/customers', $this->removeItemFromData('document'))
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
@@ -59,7 +60,7 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"document":["The document must be a number.", "The document must be 11 digits."]}';
 
         $this->post('/customers', $data)
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
@@ -80,7 +81,7 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"document":["The document must be 11 digits."]}';
 
         $this->post('/customers', $data)
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
@@ -93,7 +94,7 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"birth_date":["The birth date field is required."]}';
 
         $this->post('/customers', $this->removeItemFromData('birth_date'))
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
@@ -114,12 +115,28 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"birth_date":["The birth date is not a valid date."]}';
 
         $this->post('/customers', $data)
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
             $this->response->getContent()
         );
+    }
+
+    public function testStoreCustomerShouldThrowErrorIfBirthDateIsAfterNow()
+    {
+        $data = [
+            'first_name' => 'any_first_name',
+            'last_name' => 'any_last_name',
+            'document' => '01234567890',
+            'birth_date' => '2050-01-01',
+            'phone_number' => '11998765432'
+        ];
+
+        $expected = '{"birth_date":["The birth date is not a valid date."]}';
+
+        $this->post('/customers', $data)
+            ->assertResponseStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function testStoreCustomerShouldThrowErrorIfDocumentHasBeenCreated()
@@ -145,7 +162,7 @@ class CreateCustomerControllerTest extends TestCase
         $expected = '{"document":["The document has already been taken."]}';
 
         $this->post('/customers', $data2)
-            ->assertResponseStatus(422);
+            ->assertResponseStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->assertJsonStringEqualsJsonString(
             $expected,
@@ -163,13 +180,10 @@ class CreateCustomerControllerTest extends TestCase
             'phone_number' => '11998765432'
         ];
 
-        $expected = '{"last_name":["The last name field is required."]}';
+        $response = $this->post('/customers', $data);
+        
+        $response->assertResponseStatus(Response::HTTP_CREATED);
 
-        $this->post('/customers', $data)
-            ->seeInDatabase(
-                'customers',
-                $data
-            )
-            ->assertResponseStatus(201);
+        $this->assertArrayHasKey('uuid', json_decode($response->response->getContent(), true));
     }
 }

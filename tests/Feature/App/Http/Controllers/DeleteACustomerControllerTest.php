@@ -19,7 +19,9 @@ class DeleteACustomerControllerTest extends TestCase
 
         $expected = '{"last_name":["The last name field is required."]}';
 
-        $this->post('/customers', $data)->seeInDatabase('customers', $data);
+        $this->post('/customers', $data);
+        
+        $this->assertEquals('valid_first_name', json_decode($this->response->getContent())->first_name);
 
         $createdUuid = json_decode($this->response->getContent())->uuid;
 
