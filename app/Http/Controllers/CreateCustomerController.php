@@ -27,7 +27,7 @@ class CreateCustomerController extends Controller
      *     ),
      *      @OA\Response(
      *         response=201,
-     *         description="Error: Unprocessable Content",
+     *         description="Created",
      *         @OA\JsonContent(ref="#/components/schemas/Customer")
      *     ),
      *     @OA\Response(
