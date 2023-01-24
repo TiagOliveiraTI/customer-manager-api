@@ -6,8 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Domain\Entities\Document;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Domain\ValueObjects\BirthDate;
+use App\Domain\ValueObjects\PhoneNumber;
 
 class UpdateCustomerController extends Controller
 {
@@ -68,17 +71,24 @@ class UpdateCustomerController extends Controller
             );
         }
 
+        $newData = [];
+
         if ($request->document === $customer->document) {
-            $newData = [];
             $newData['first_name'] = $request->first_name;
             $newData['last_name'] = $request->last_name;
-            $newData['birth_date'] = $request->birth_date;
-            $newData['phone_number'] = $request->phone_number;
+            $newData['birth_date'] = (new BirthDate($request->get('birth_date')))->getDate();
+            $newData['phone_number'] = (new PhoneNumber($request->get('phone_number')))->getNumber();
 
             $customer->update($newData);
 
             return response()->json($customer);
         }
+
+        $newData['first_name'] = $request->get('first_name');
+        $newData['last_name'] = $request->get('last_name');
+        $newData['document'] = (new Document($request->get('document')))->getNumber();
+        $newData['birth_date'] = (new BirthDate($request->get('birth_date')))->getDate();
+        $newData['phone_number'] = (new PhoneNumber($request->get('phone_number')))->getNumber();
 
         $customer->update($request->all());
 

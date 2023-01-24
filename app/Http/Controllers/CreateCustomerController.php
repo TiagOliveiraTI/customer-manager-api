@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Entities\Document;
+use App\Domain\ValueObjects\BirthDate;
+use App\Domain\ValueObjects\PhoneNumber;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -47,7 +50,12 @@ class CreateCustomerController extends Controller
             "birth_date" => "required|date"
         ]);
 
-        $params = $request->all();
+        $params = [];
+        $params['first_name'] = $request->get('first_name');
+        $params['last_name'] = $request->get('last_name');
+        $params['document'] = (new Document($request->get('document')))->getNumber();
+        $params['birth_date'] = (new BirthDate($request->get('birth_date')))->getDate() ?? null;
+        $params['phone_number'] = (new PhoneNumber($request->get('phone_number')))->getNumber();
 
         $response = new Customer($params);
 

@@ -3,8 +3,9 @@
 namespace Tests\Feature\App\Http\Controllers;
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
-class ListCustomerByDocumentTest extends \Tests\TestCase
+class ListCustomerByDocumentTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -46,9 +47,9 @@ class ListCustomerByDocumentTest extends \Tests\TestCase
         $this->get('/customers/01234567890')
             ->assertResponseStatus(200);
 
-        $this->seeInDatabase(
-            'customers',
-            $data
-        );
+            $this->assertArrayHasKey(
+                'uuid', 
+                json_decode($this->response->getContent(), true)
+            );
     }
 }

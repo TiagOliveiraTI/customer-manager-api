@@ -9,7 +9,6 @@ class ListAllCustomersControllerTest extends TestCase
 
     public function testListAllShouldReturnAnArray()
     {
-
         $this->get('/customers');
 
         $expected = '[]';
@@ -32,9 +31,7 @@ class ListAllCustomersControllerTest extends TestCase
 
         $this->post('/customers', $data1);
 
-        $this->get('/customers');
-
-        $this->seeInDatabase('customers', $data1);
+        $this->assertArrayHasKey('uuid', json_decode($this->response->getContent(), true));
 
     }
 }

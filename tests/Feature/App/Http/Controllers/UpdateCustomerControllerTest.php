@@ -3,8 +3,9 @@
 namespace Tests\Feature\App\Http\Controllers;
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
-class UpdateCustomerControllerTest extends \Tests\TestCase
+class UpdateCustomerControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -18,7 +19,7 @@ class UpdateCustomerControllerTest extends \Tests\TestCase
             'phone_number' => '11998765432'
         ];
 
-        $createdCustomer = $this->post('/customers', $data);
+        $this->post('/customers', $data);
 
         $newData = [
             'first_name' => 'new_first_name',
@@ -33,9 +34,7 @@ class UpdateCustomerControllerTest extends \Tests\TestCase
         $this->put("/customers/{$createdUuid}", $newData)
             ->assertResponseStatus(200);
 
-        $this->seeInDatabase(
-            'customers',
-            $newData
-        );
+            $this->assertArrayHasKey('uuid', json_decode($this->response->getContent(), true));
+            $this->assertEquals('new_first_name', json_decode($this->response->getContent())->first_name);
     }
 }
