@@ -16,3 +16,4 @@
 $router->post('/customers', 'CreateCustomerController@handle');
 $router->get('/customers', 'ListAllCustomersController@handle');
 $router->get('/customers/{document}', 'ListCustomerByDocument@handle');
+$router->put('/customers/{uuid}', 'UpdateCustomerController@handle');
